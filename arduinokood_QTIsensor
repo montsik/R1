@@ -34,8 +34,7 @@
 /* Global variables ------------------------------------------ */
 Servo g_left_wheel;
 Servo g_right_wheel;
-int i=0;
-int n=2;
+int i = 0;
 
 
 /* Private functions ------------------------------------------------- */
@@ -99,11 +98,26 @@ void vasak(){
 void loop() {
 
   /* Start reading QTI values and adjust wheels accordingly */
+  if (i < 2){
   if (readQti(left_qti) && readQti(right_qti)) {
     edasi();      // standstill values when both sensors are on dark
     setLed(HIGH, HIGH);           // both LEDs are turned on
     delay(500);
-  } else if (!readQti(left_qti) && readQti(right_qti)){ //TODO - solve the task!
+    setLed(LOW, LOW);
+    delay(500);
+     setLed(HIGH, HIGH);          
+    delay(500);
+    setLed(LOW, LOW);
+    delay(500);
+    i = i + 1 }
+  } 
+  if (i == 2){
+   if(readQti(left_qti) && readQti(right_qti)) {
+    setWheels(1500, 1500);     // standstill values when both sensors are on dark
+    setLed(HIGH, HIGH);           // both LEDs are turned on
+    }
+  }
+   else if (!readQti(left_qti) && readQti(right_qti)){ //TODO - solve the task!
     parem();
   } else if (readQti(left_qti) && !readQti(right_qti)){ //TODO - solve the task!
     vasak();
